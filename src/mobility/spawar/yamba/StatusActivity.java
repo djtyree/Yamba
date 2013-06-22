@@ -1,6 +1,5 @@
 package mobility.spawar.yamba;
 
-import mobility.spawar.yamba.RestClient.RequestMethod;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +52,14 @@ public class StatusActivity extends Activity implements OnClickListener {
 	public void onClickPull(View v) {
 		String statusText = "Testing";
 		Log.d("Status Activity", "pull test with: " + statusText);
-		editPullStatus.setText(statusText);
+		
+		FusionApi api = FusionApi.getInstance();
+		api.getUserProfile("admin", new GetResponseCallback() {
+			@Override
+			void onDataReceived(Profile profile) {
+				editPullStatus.setText(profile.getName());
+			}
+		});
 	}
 
 }

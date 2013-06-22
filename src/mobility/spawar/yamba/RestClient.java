@@ -1,7 +1,5 @@
 package mobility.spawar.yamba;
 
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,12 +22,8 @@ import org.apache.http.protocol.HTTP;
 
 public class RestClient {
 
-	public enum RequestMethod {
-		GET, POST
-	}
-
-	private ArrayList<NameValuePair> params;
-	private ArrayList<NameValuePair> headers;
+	private ArrayList <NameValuePair> params;
+	private ArrayList <NameValuePair> headers;
 
 	private String url;
 
@@ -37,6 +31,10 @@ public class RestClient {
 	private String message;
 
 	private String response;
+
+	public enum RequestMethod {
+		GET, POST
+	}
 
 	public String getResponse() {
 		return response;
@@ -64,59 +62,51 @@ public class RestClient {
 		headers.add(new BasicNameValuePair(name, value));
 	}
 
-	public void Execute(RequestMethod method) throws Exception
-    {
-        switch(method) {
-            case GET:
-            {
-                //add parameters
-                String combinedParams = "";
-                if(!params.isEmpty()){
-                    combinedParams += "?";
-                    for(NameValuePair p : params)
-                    {
-                        String paramString = p.getName() + "=" + URLEncoder.encode(p.getValue(), "UTF-8" );
-                        if(combinedParams.length() > 1)
-                        {
-                            combinedParams  +=  "&" + paramString;
-                        }
-                        else
-                        {
-                            combinedParams += paramString;
-                        }
-                    }
-                }
+	public void Execute(RequestMethod method) throws Exception {
+		switch (method) {
+		case GET: {
+			// add parameters
+			String combinedParams = "";
+			if (!params.isEmpty()) {
+				combinedParams += "?";
+				for (NameValuePair p : params) {
+					String paramString = p.getName() + "="
+							+ URLEncoder.encode(p.getValue(), "UTF-8");
+					if (combinedParams.length() > 1) {
+						combinedParams += "&" + paramString;
+					} else {
+						combinedParams += paramString;
+					}
+				}
+			}
 
-                HttpGet request = new HttpGet(url + combinedParams);
+			HttpGet request = new HttpGet(url + combinedParams);
 
-                //add headers
-                for(NameValuePair h : headers)
-                {
-                    request.addHeader(h.getName(), h.getValue());
-                }
+			// add headers
+			for (NameValuePair h : headers) {
+				request.addHeader(h.getName(), h.getValue());
+			}
 
-                executeRequest(request, url);
-                break;
-            }
-            case POST:
-            {
-                HttpPost request = new HttpPost(url);
+			executeRequest(request, url);
+			break;
+		}
+		case POST: {
+			HttpPost request = new HttpPost(url);
 
-                //add headers
-                for(NameValuePair h : headers)
-                {
-                    request.addHeader(h.getName(), h.getValue());
-                }
+			// add headers
+			for (NameValuePair h : headers) {
+				request.addHeader(h.getName(), h.getValue());
+			}
 
-                if(!params.isEmpty()){
-                    request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
-                }
+			if (!params.isEmpty()) {
+				request.setEntity(new UrlEncodedFormEntity(params, HTTP.UTF_8));
+			}
 
-                executeRequest(request, url);
-                break;
-            }
-        }
-    }
+			executeRequest(request, url);
+			break;
+		}
+		}
+	}
 
 	private void executeRequest(HttpUriRequest request, String url) {
 		HttpClient client = new DefaultHttpClient();
@@ -170,4 +160,3 @@ public class RestClient {
 		return sb.toString();
 	}
 }
-
