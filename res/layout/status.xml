@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/yamba_blue"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <TextView
+        style="@style/title_style"
+        android:text="@string/status_update"
+         />
+
+    <Button
+        android:onClick="onClick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default"
+        android:text="@string/button_update" />
+
+    <EditText
+        android:id="@+id/edit_update_status"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_gravity="center"
+        android:background="#cfff"
+        android:hint="@string/status_hint"
+        android:inputType="textMultiLine"
+        android:padding="10dp" >
+
+        <requestFocus />
+    </EditText>
+    <Button
+        android:onClick="onClickPull"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_default"
+        android:text="@string/button_update" />
+
+    <TextView
+        android:id="@+id/edit_pull_status"
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_gravity="center"
+        android:background="#cfff"
+        android:padding="10dp" >
+    </TextView>
+
+</LinearLayout>
