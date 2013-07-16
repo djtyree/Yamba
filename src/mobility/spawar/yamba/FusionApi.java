@@ -1,8 +1,10 @@
 package mobility.spawar.yamba;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import org.xmlpull.v1.XmlPullParserException;
+import android.util.Log;
 
 public class FusionApi {
 	private String baseUrl;
@@ -45,19 +47,26 @@ public class FusionApi {
 	public void getUserProfile(String userName,
 			final GetResponseCallback callback) {
 		
-		String restUrl = Utils.constructRestUrlForProfile(userName);
+		//String restUrl = Utils.constructRestUrlForProfile(userName);
+		String restUrl = "http://oz-spawar.rhcloud.com/web-services/user.json";
+
+		final Profile profile = new Profile();
 		new GetTask(restUrl, new RestTaskCallback() {
 			@Override
 			public void onTaskComplete(String response) {
-				Profile profile = new Profile();
 				try {
-					profile = Utils.parseResponseAsProfile(response);
-				} catch (XmlPullParserException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+					JSONArray json = new JSONArray(response);
+					int length = json.length();
+					for (int i = 0; i < json.length(); i++) {
+						JSONObject profileJSON = json.getJSONObject(i);				
+						profile.parseProfile(profileJSON);
+						Log.d("oz", profile.getUserName());
+						
+					}
+				} catch (JSONException e1) {
+					e1.printStackTrace();
 				}
-				callback.onDataReceived(profile);
+				callback.onDataReceived(new Profile());
 			}
 		}).execute();
 	}
